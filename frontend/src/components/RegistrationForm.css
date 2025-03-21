@@ -1,0 +1,107 @@
+/* frontend/src/components/RegistrationForm.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #f0f4f8;
+}
+
+.registration-form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.registration-form {
+    background: white;
+    padding: 30px; /* Adjusted padding to match login form */
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h2 {
+    font-size: 26px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 6px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 6px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    border-color: #2575fc;
+    outline: none;
+    background-color: #fff;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #2575fc;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #6a11cb;
+}
+
+button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+}
+
+p {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+p.error {
+    color: #e74c3c;
+}
+
+p.success {
+    color: #2ecc71;
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 480px) {
+    .registration-form {
+        padding: 20px;
+      min-width: 40%; 
+    }
+    h2 {
+        font-size: 22px;
+    }
+}

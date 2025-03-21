@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const login = async (username: string, password: string) => {
     try {
-      const res = await axios.post('http://localhost:5000/api/users/login', { username, password });
+      const res = await axios.post('http://localhost:5003/api/users/login', { username, password });
       const token = res.data.token;
       localStorage.setItem('token', token);
       localStorage.setItem('role', res.data.role); // Store role in localStorage

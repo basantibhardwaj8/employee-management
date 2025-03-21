@@ -1,136 +1,248 @@
+// // frontend/src/components/Login.tsx
 // import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import axios from 'axios';
+// import './Login.css';
+
 
 // const Login: React.FC = () => {
 //   const navigate = useNavigate();
-//   const [username, setUsername] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [role, setRole] = useState('employee'); // Default role
+//   const [formData, setFormData] = useState({
+//     username: '',
+//     password: '',
+//     role: 'employee'
+//   });
 //   const [error, setError] = useState<string | null>(null);
+//   const [isLoading, setIsLoading] = useState(false);
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+//     setFormData({
+//       ...formData,
+//       [e.target.name]: e.target.value
+//     });
+//   };
 
 //   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 //     e.preventDefault();
 //     setError(null);
-
+//     setIsLoading(true);
+  
 //     try {
-//       // Make a request to your backend API to authenticate the user
-//       const response = await axios.post('http://localhost:5000/api/users/login', { username, password });
-//       const { token, role } = response.data;
-
-//       // Store the token and role in local storage or context
+//       const response = await axios.post('http://localhost:5003/api/users/login', {
+//         username: formData.username,
+//         password: formData.password
+//       });
+  
+//       const { token, role, username } = response.data;
+  
+//       // Store auth data
 //       localStorage.setItem('token', token);
 //       localStorage.setItem('role', role);
-
-//       // Redirect to the dashboard
-//       navigate('/dashboard');
-//     } catch (err) {
-//       setError('Invalid credentials. Please try again.');
+//       localStorage.setItem('username', username);
+  
+//       // Configure axios defaults for future requests
+//       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+//       // Redirect based on role
+//       if (role === 'admin') {
+//         navigate('/admindashboard');  // Issue here
+//  // Admin dashboard
+//       } else {
+//         navigate('/employeedashboard');  // Employee dashboard
+//       }
+//     } catch (err: any) {
+//       console.error('Login error:', err);
+//       setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+//     } finally {
+//       setIsLoading(false);
 //     }
 //   };
+  
 
 //   return (
-//     <form onSubmit={handleSubmit}>
-//       <h2>Login</h2>
-//       <div>
-//         <label htmlFor="username">Username:</label>
-//         <input
-//           type="text"
-//           id="username"
-//           value={username}
-//           onChange={(e) => setUsername(e.target.value)}
-//           required
-//         />
-//       </div>
-//       <div>
-//         <label htmlFor="password">Password:</label>
-//         <input
-//           type="password"
-//           id="password"
-//           value={password}
-//           onChange={(e) => setPassword(e.target.value)}
-//           required
-//         />
-//       </div>
-//       <div>
-//         <label htmlFor="role">Select Role:</label>
-//         <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required>
-//           <option value="employee">Employee</option>
-//           <option value="admin">Admin</option>
-//         </select>
-//       </div>
-//       <button type="submit">Login</button>
-//       {error && <p style={{ color: 'red' }}>{error}</p>}
-//     </form>
+//     <div className="login-container">
+//       <form onSubmit={handleSubmit} className="login-form">
+//         <h2>Login</h2>
+//         {error && <div className="error-message">{error}</div>}
+        
+//         <div className="form-group">
+//           <label htmlFor="username">Username:</label>
+//           <input
+//             type="text"
+//             id="username"
+//             name="username"
+//             value={formData.username}
+//             onChange={handleChange}
+//             required
+//             className="form-control"
+//           />
+//         </div>
+
+//         <div className="form-group">
+//           <label htmlFor="password">Password:</label>
+//           <input
+//             type="password"
+//             id="password"
+//             name="password"
+//             value={formData.password}
+//             onChange={handleChange}
+//             required
+//             className="form-control"
+//           />
+//         </div>
+
+//         <div className="form-group">
+//           <label htmlFor="role">Role:</label>
+//           <select
+//             id="role"
+//             name="role"
+//             value={formData.role}
+//             onChange={handleChange}
+//             className="form-control"
+//           >
+//             <option value="employee">Employee</option>
+//             <option value="admin">Admin</option>
+//           </select>
+//         </div>
+
+//         <button 
+//           type="submit" 
+//           className="submit-button"
+//           disabled={isLoading}
+//         >
+//           {isLoading ? 'Logging in...' : 'Login'}
+//         </button>
+//       </form>
+//     </div>
 //   );
 // };
 
 // export default Login;
 
+
+
+
+
+// frontend/src/components/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Login.css';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('employee'); // Default role
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    role: 'employee'
+  });
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true);
 
     try {
-      // Make a request to your backend API to authenticate the user
-      const response = await axios.post('http://localhost:5002/api/users/login', { username, password });
-      const { token, role } = response.data;
+      const response = await axios.post('http://localhost:5003/api/users/login', {
+        username: formData.username,
+        password: formData.password,
+      });
 
-      // Store the token and role in local storage or context
+      const { token, role, username } = response.data;
+
+      // Clear any existing role or user data before setting new values
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
+      localStorage.removeItem('username');
+
+      // Store new auth data in localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
+      localStorage.setItem('username', username);
 
-      // Redirect to the dashboard
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Invalid credentials. Please try again.');
+      // Configure axios defaults for future requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      // Redirect based on role
+      if (role === 'admin') {
+        // Navigate to Admin Dashboard
+        navigate('/dashboard/admindashboard');  
+      } else {
+        // Navigate to Employee Dashboard
+        navigate('/dashboard/employeedashboard');  
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Login</h2>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="role">Select Role:</label>
-        <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required>
-          <option value="employee">Employee</option>
-          <option value="admin">Admin</option>
-        </select>
-      </div>
-      <button type="submit">Login</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </form>
+    <div className="login-container">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2>Login</h2>
+        {error && <div className="error-message">{error}</div>}
+
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className="form-control"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="form-control"
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="role">Role:</label>
+          <select
+            id="role"
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="form-control"
+          >
+            <option value="employee">Employee</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className="submit-button"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
+    </div>
   );
 };
 

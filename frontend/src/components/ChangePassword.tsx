@@ -14,7 +14,7 @@ const ChangePassword: React.FC = () => {
 
     try {
       // Call your API to change the password
-      await axios.put('http://localhost:5002/api/users/change-password', { oldPassword, newPassword });
+      await axios.put('http://localhost:5003/api/users/change-password', { oldPassword, newPassword });
       setMessage('Password changed successfully!');
     } catch (err) {
       setError('Failed to change password. Please try again.');

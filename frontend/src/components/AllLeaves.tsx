@@ -7,7 +7,7 @@ const AllLeaves: React.FC = () => {
   useEffect(() => {
     const fetchLeaves = async () => {
       try {
-        const res = await axios.get('http://localhost:5002/api/leaves'); // Adjust the API endpoint as needed
+        const res = await axios.get('http://localhost:5003/api/leaves'); // Adjust the API endpoint as needed
         setLeaves(res.data);
       } catch (err) {
         console.error('Error fetching leaves:', err);

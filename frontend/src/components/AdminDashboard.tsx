@@ -6,14 +6,14 @@ const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     const fetchLeaveRequests = async () => {
-      const res = await axios.get('http://localhost:5002/api/leaves');
+      const res = await axios.get('http://localhost:5003/api/leaves');
       setLeaveRequests(res.data);
     };
     fetchLeaveRequests();
   }, []);
 
   const handleLeaveAction = async (id: string, status: string) => {
-    await axios.put('http://localhost:5002/api/leaves/handle', { leaveId: id, status });
+    await axios.put('http://localhost:5003/api/leaves/handle', { leaveId: id, status });
     setLeaveRequests(leaveRequests.filter((req: any) => req._id !== id));
   };
 

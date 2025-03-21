@@ -6,15 +6,20 @@ const EmployeeDashboard: React.FC = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
-  const handleApplyLeave = async () => {
+  const handleApplyLeave = async (e:any) => {
+    e.preventDefault();
+
     const leaveRequest = { leaveType, startDate, endDate };
-    await axios.post('http://localhost:5002/api/leaves/apply', leaveRequest);
+    await axios.post('http://localhost:5003/api/leaves/apply', leaveRequest);
   };
 
   return (
     <div>
       <h2>Employee Dashboard</h2>
-      <form onSubmit={handleApplyLeave}>
+
+      <form onSubmit={ (e)=>
+        handleApplyLeave(e)} >
+
         <select onChange={(e) => setLeaveType(e.target.value)} value={leaveType}>
           <option value="sick">Sick Leave</option>
           <option value="casual">Casual Leave</option>

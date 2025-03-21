@@ -7,7 +7,7 @@ const Departments: React.FC = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
-        const res = await axios.get('http://localhost:5002/api/departments'); // Adjust the API endpoint as needed
+        const res = await axios.get('http://localhost:5003/api/departments'); // Adjust the API endpoint as needed
         setDepartments(res.data);
       } catch (err) {
         console.error('Error fetching departments:', err);

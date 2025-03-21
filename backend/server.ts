@@ -8,7 +8,7 @@ import leaveRoutes from './src/routes/leaveRoutes';  // Leave routes import
 import departmentRoutes from './src/routes/departmentRoutes';  // Department routes import
 
 const app = express();
-const port = 5002;
+const port = 5003;
 
 // Middleware
 app.use(cors());  // Allow all origins or customize if needed

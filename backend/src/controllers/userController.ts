@@ -34,33 +34,48 @@ export const registerUser  = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-// Login user (admin/employee)
-export const loginUser  = async (req: Request, res: Response): Promise<void> => {
+// backend/src/controllers/userController.ts
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;
 
   // Validate required fields
   if (!username || !password) {
     res.status(400).json({ message: 'Please provide both username and password' });
-    return; // Ensure to return after sending a response
+    return;
   }
 
   try {
     const user = await User.findOne({ username });
     if (!user) {
-      res.status(404).json({ message: 'User  not found' });
-      return; // Return to prevent further execution
+      res.status(404).json({ message: 'User not found' });
+      return;
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       res.status(400).json({ message: 'Invalid credentials' });
-      return; // Return to prevent further execution
+      return;
     }
 
-    const token = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET_KEY as string, { expiresIn: '1h' });
+    // Create JWT token
+    const token = jwt.sign(
+      { 
+        userId: user._id, 
+        role: user.role,
+        username: user.username 
+      }, 
+      process.env.JWT_SECRET_KEY as string, 
+      { expiresIn: '1h' }
+    );
 
-    res.json({ token });
+    // Send response with token and role
+    res.status(200).json({ 
+      token,
+      role: user.role,
+      username: user.username
+    });
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ message: 'Error logging in', error: err });
   }
 };
